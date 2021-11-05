@@ -1,4 +1,4 @@
-const loginForm = document.getElementById("login-form");
+﻿const loginForm = document.getElementById("login-form");
 const loginButton = document.getElementById("login-form-submit");
 const loginErrorMsg = document.getElementById("login-error-msg");
 var attempt = 3;
@@ -8,9 +8,9 @@ loginButton.addEventListener("click", (e) => {
     const username = loginForm.username.value;
     const password = loginForm.password.value;
 
-    if (username === "Admin" && password === "Admin") {
+    if (username === "ming" && password === "1234") {
         alert("You have successfully logged in.");
-        window.location.href="adminPage.html";
+        window.location.href="staffPage.html";
     } else {
         attempt --;
         alert("You have " + attempt + " attempts left");

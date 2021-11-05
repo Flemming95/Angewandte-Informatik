@@ -2,16 +2,14 @@ div.buttons
 {
     display:flex;
     justify-content: flex-end;
-
 }
 div.container
 {
     display:flex;
     flex-direction: column;
+    height:50%;
+    width: 50%;
     justify-content: space-around;
-
-    color:green;
-
 
     border:1px solid black;
 
