@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="loginPage.css">
+    <script src="addItem.js" defer></script>
+</head>
+<body>
+<div class="staff-container">
+
+    <form name="userInfo" id="uInfo" onsubmit="addItem()" method="post">
+        <h1>Add Staff</h1>
+        <ul id="staff-list">
+            <li id="sID">
+                <label for="staffID">Staff ID*</label><br>
+                <input type="number" name="staffID" id="staffID" required>
+            </li>
+            <li id="first">
+                <label for="fname">First Name*</label><br>
+                <input type="text" name="fname" id="fname" required>
+            </li>
+            <li id="last">
+                <label for="lname">Last Name</label><br>
+                <input type="text" name="lname" id="lname">
+            </li>
+            <li id="date">
+                <label for="dob">Date of Birth</label><br>
+                <input type="text" name="dob" id="dob" >
+            </li>
+            <li id="mail">
+                <label for="email">Email*</label><br>
+                <input type="text" name="email" id="email" required>
+            </li>
+            <li id="gender">
+                <p>Gender</p>
+                <input type="radio" name="sex" value="male">Male
+                <input type="radio" name="sex" value="female">Female
+            </li>
+            <div>
+                <button type="submit" value="Submit" id="add-submit">Submit</button>
+            </div>
+
+        </ul>
+    </form>
+    
+
+</div>
+<ul id="new-list"></ul>
+</body>
+</html>

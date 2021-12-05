@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Student</title>
+    <link rel="stylesheet" href="loginPage.css">
+    <script scr="addItem.js"></script>
+</head>
+<body>
+<div class="student-container">
+    <form name="userInfo" id="uInfo" action="success.html" onsubmit="return validateForm()" method="post">
+        <h1>Add Student</h1>
+        <ul id="student-list">
+            <li id="stuID">
+                <label for="studentID">Student ID*</label><br>
+                <input type="number" name="studentID" id="studentID" required>
+            </li>
+            <li id="sFirst">
+                <label for="fname">First Name*</label><br>
+                <input type="text" name="fname" id="fname" required>
+            </li>
+            <li id="sLast">
+                <label for="lname">Last Name</label><br>
+                <input type="text" name="lname" id="lname" >
+            </li>
+            <li id="sDate">
+                <label for="sDate">Date of Birth</label><br>
+                <input type="text" name="dob" id="dob" onblur="ValidateDOB()" required>
+                <span class="error" id="labelDOBError"></span>
+
+            </li>
+            <li id="sDepartment">
+                <label for="department">Department*</label>
+                <select name="department" id="department" required>
+                    <option value="fb1">FB1</option>
+                    <option value="fb2">FB2</option>
+                    <option value="fb3">FB3</option>
+                    <option value="fb4">FB4</option>
+                </select>
+            </li>
+            <li id="sMail">
+                <label for="email">Email*</label><br>
+                <input type="text" name="email" id="email" required>
+            </li>
+            <li id="sSex">
+                <p>Gender:</p>
+                <input type="radio" name="sex" value="male">Male
+                <input type="radio" name="sex" value="female">Female
+            </li>
+            <li id="sJD">
+                <label for="sJoinDate">Join Date*</label><br>
+                <input type="text" name="sJoinDate" id="sJoinDate" onblur="ValidateJD()" required>
+                <span class="error" id="labelJoinError"></span>
+
+            </li>
+            <div>
+                <button type="submit" value="Validate" id="add-submit">Submit</button>
+            </div>
+        </ul>
+    </form>
+</div>
+<script type="text/javascript">
+    function validateForm() {
+        if(ValidateDOB() && ValidateJD()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    function ValidateDOB() {
+        var labelError = document.getElementById("labelDOBError");
+
+        //Get Data and split it into dd/mm/yyyy
+        var dateString = document.getElementById("dob").value;
+        var regex = /(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)\d\d))$/;
+
+        //Check if format is valid
+        if (regex.test(dateString)) {
+            var parts = dateString.split("/");
+            var dtDOB = new Date(parts[1] + "/" + parts[0]+ "/" + parts[2]);
+            var dtCurrent = new Date();
+            labelError.innerHTML = "Must be between 17 and 60 years old!"
+            if (dtCurrent.getFullYear() - dtDOB.getFullYear() < 17 || dtCurrent.getFullYear() - dtDOB.getFullYear() > 61){
+                //False if below 60 or higher than 61 (61 can still be 60, if they havent had birthday yet)
+                return false;
+            }
+            else if (dtCurrent.getFullYear() - dtDOB.getFullYear() == 17){
+                if (dtCurrent.getMonth() < dtDOB.getMonth()) {
+                    return false;
+                }
+                if (dtCurrent.getMonth() == dtDOB.getMonth()){
+                    //if its in the same month, need to confirm by date
+                    if (dtCurrent.getDate() < dtDOB.getDate()){
+                        return false;
+                    }
+                }
+            }
+            else if (dtCurrent.getFullYear() - dtDOB.getFullYear() == 61) {
+                if (dtCurrent.getMonth() > dtDOB.getMonth()){
+                    //If the month is higher , then they will have turned 61 already
+                    return false;
+                }
+                if (dtCurrent.getMonth() == dtDOB.getMonth()){
+                    //If in the same month, need to validate if theyve had their birthday yet
+                    if (dtCurrent.getDate() >= dtDOB.getDate()){
+                        return false;
+                    }
+                }
+            }
+            labelError.innerHTML = "";
+            return true;
+        } else {
+            labelError.innerHTML = "Please enter date in dd/mm/yyyy format!"
+            return false;
+        }
+    }
+    function ValidateJD(){
+        var labelError = document.getElementById("labelJoinError");
+
+        //Get Data and split it into dd/mm/yyyy
+        var dateString = document.getElementById("sJoinDate").value;
+        var regex = /(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)\d\d))$/;
+
+        //Check if format is valid
+        if (regex.test(dateString)) {
+            var parts = dateString.split("/");
+            var dtJD = new Date(parts[1] + "/" + parts[0]+ "/" + parts[2]);
+
+            labelError.innerHTML = "Cant be older than 2015!"
+            if (dtJD.getFullYear() < 2015){
+                return false;
+            }
+            labelError.innerHTML = ""
+            return true;
+        }
+        else {
+            labelError.innerHTML = "Please enter date in dd/mm/yyyy format!"
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

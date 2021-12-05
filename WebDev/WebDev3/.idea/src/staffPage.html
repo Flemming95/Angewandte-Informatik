@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Page</title>
+    <link rel="stylesheet" href="loginPage.css">
+    <script scr="script.js" defer></script>
+    <style>
+        table, th, td {
+            border: 1px solid black
+        }
+    </style>
+</head>
+<body>
+<div id="add-delete-update">
+    <button id="mng-buttons" >
+        <label for="department">Department</label>
+        <select name="department" id="ldepartment" onclick="filterTable(studentArr)" required>
+            <option value="all">ALL</option>
+            <option value="fb1">FB1</option>
+            <option value="fb2">FB2</option>
+            <option value="fb3">FB3</option>
+            <option value="fb4">FB4</option>
+        </select>
+    </button>
+    <button id="mng-buttons" >
+        <label for="semester">Semester</label>
+        <select name="semester" id="lsemester" onclick="filterByJoin(studentArr)" required>
+            //Fall Semester doesnt exist and I wont use it in any way, but the task said to create it.
+            <option value="fallSem">Fall</option>
+            <option value="winterSem">Winter</option>
+            <option value="summerSem">Summer</option>
+        </select>
+    </button>
+</div>
+<div>
+    <h1>Students</h1>
+    <ul id="user-list-admin">
+        <table class="table table-striped">
+            <tr  class="bg-info">
+                <th  class="bg-info" data-colname="id" data-order="desc">ID</th>
+                <th  data-colname="fname" data-order="desc">First Name</th>
+                <th  data-colname="lname" data-order="desc">Last Name</th>
+                <th  data-colname="dob" data-order="desc">Date of Birth</th>
+                <th  data-colname="gender" data-order="desc">Gender</th>
+                <th  data-colname="tableDepartment" data-order="desc">Department</th>
+                <th  data-colname="email" data-order="desc">Email</th>
+                <th  data-colname="jDate" data-order="desc">Join Date</th>
+            </tr>
+            <tbody id="myTable">
+
+            </tbody>
+        </table>
+
+    </ul>
+    <h1>Courses</h1>
+    <label for="courses">Courses</label>
+    <select name="courses" id="courses" required>
+        <option value="fb1">Math</option>
+
+        <option value="fb2">English</option>
+        <option value="fb3">Web Development</option>
+        <option value="fb4">Science</option>
+    </select>
+</div>
+</body>
+<script type="text/javascript">
+    var studentArr = [
+        {'ID' : '0', 'fname' : 'Flemming', 'lname' : 'Hoffmeister', 'dob' : '23/08/1995', 'gender' : 'male',
+            'department' : 'FB4', 'email' : 'Flemming.Hoffmeister@htw-berlin.de', 'joinDate' : '01/09/2018'},
+        {'ID' : '1', 'fname' : 'Ming', 'lname' : 'Mong', 'dob' : '13/12/1992', 'gender' : 'male',
+            'department' : 'FB1', 'email' : 'Ming.Mong@htw-berlin.de', 'joinDate' : '01/12/2016'},
+        {'ID' : '2', 'fname' : 'Monty', 'lname' : 'Python', 'dob' : '12/11/1991', 'gender' : 'male',
+            'department' : 'FB2', 'email' : 'm.p@htw-berlin.de', 'joinDate' : '01/06/2018'},
+        {'ID' : '3', 'fname' : 'Hello', 'lname' : 'World', 'dob' : '11/02/1996', 'gender' : 'male',
+            'department' : 'FB3', 'email' : 'h.w@htw-berlin.de', 'joinDate' : '01/05/2018'},
+        {'ID' : '4', 'fname' : 'Tobias', 'lname' : 'Leander', 'dob' : '13/06/1999', 'gender' : 'male',
+            'department' : 'FB2', 'email' : 't.b@htw-berlin.de', 'joinDate' : '01/02/2018'},
+        {'ID' : '5', 'fname' : 'Max', 'lname' : 'Malls', 'dob' : '14/04/1997', 'gender' : 'male',
+            'department' : 'FB4', 'email' : 'm.m@htw-berlin.de', 'joinDate' : '01/11/2018'}
+    ]
+
+    buildTable(studentArr)
+    var currentArr = studentArr
+
+    function filterTable(data){
+        var filteredData = []
+        var dd = document.getElementById("ldepartment")
+        var currentDD = dd.options[dd.selectedIndex].text
+        if(currentDD.includes("ALL")){
+            buildTable(studentArr)
+            return
+        }
+
+
+        for (var i = 0; i < data.length; i++){
+            var currentDepartment = data[i].department
+
+            if (currentDD.includes(currentDepartment)){
+                filteredData.push(data[i]);
+            }
+        }
+
+        currentArr = filteredData
+        buildTable(filteredData);
+    }
+
+    function filterByJoin(data){
+
+        var filteredData = []
+        var dd = document.getElementById("lsemester")
+        dd = dd.options[dd.selectedIndex].text
+
+        if (dd.includes("Fall")){
+            buildTable(studentArr)
+            return
+        }
+        else if(dd.includes("Winter")){
+            for (var i=0; i < data.length; i++){
+                var semesterJoined = data[i].joinDate
+
+                var parts = semesterJoined.split("/");
+                var dtJoined = new Date(parts[1] + "/" + parts[0]+ "/" + parts[2]);
+
+                if (dtJoined.getMonth() >= 10 || dtJoined.getMonth() <= 2){
+                    filteredData.push(data[i])
+                }
+            }
+        }
+        else if(dd.includes("Summer")){
+            for (var i=0; i < data.length; i++){
+                var semesterJoined = data[i].joinDate
+
+                var parts = semesterJoined.split("/");
+                var dtJoined = new Date(parts[1] + "/" + parts[0]+ "/" + parts[2]);
+
+                if (dtJoined.getMonth() <= 9 && dtJoined.getMonth() >= 4){
+                    filteredData.push(data[i])
+                }
+            }
+        }
+
+        buildTable(filteredData)
+    }
+
+    function buildTable(data){
+
+        var table = document.getElementById('myTable');
+        table.innerHTML = ''
+        for (var i = 0; i < data.length; i++){
+            var colid = `ID-${i}`
+            var colfname = `fname-${i}`
+            var collname = `lname-${i}`
+            var coldob = `dob-${i}`
+            var colgender = `gender-${i}`
+            var coldep = `department-${i}`
+            var colmail = `email-${i}`
+            var coljd = `joinDate-${i}`
+
+            var row = `<tr>
+                            <td>${data[i].ID}</td>
+                            <td>${data[i].fname}</td>
+                            <td>${data[i].lname}</td>
+                            <td>${data[i].dob}</td>
+                            <td>${data[i].gender}</td>
+                            <td>${data[i].department}</td>
+                            <td>${data[i].email}</td>
+                            <td>${data[i].joinDate}</td>`
+            table.innerHTML += row
+        }
+    }
+
+
+</script>
+</html>
